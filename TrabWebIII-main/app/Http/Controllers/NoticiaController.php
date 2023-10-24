@@ -37,9 +37,7 @@ class NoticiaController extends Controller
     {
         //echo "Metodo CREATE";
         $this->authorize('create', Noticia::class);
-
         return view('viewsNoticias.create');
-
     }
 
     /**
@@ -56,7 +54,6 @@ class NoticiaController extends Controller
     public function store(StoreNoticiaRequest $request)
     {
         //echo "Metodo STORE";
-        $this->authorize('create', Noticia::class);
         
         $novanoticia = new Noticia();
         $novanoticia->titulo = $request->titulo;
@@ -77,8 +74,7 @@ class NoticiaController extends Controller
     public function show(Noticia $noticia)
     {
         //echo "Metodo SHOW";
-        $this->authorize('view', $noticia);
-
+        $this->authorize('visualizar-noticia', $noticia);
         return view('viewsNoticias.show', compact(['noticia']));
     }
 
@@ -91,8 +87,7 @@ class NoticiaController extends Controller
     public function edit(Noticia $noticia)
     {
         //echo "Metodo EDIT";
-        $this->authorize('update', $noticia);
-
+        $this->authorize('editar-noticia', $noticia);
         return view('viewsNoticias.edit', compact(['noticia']));
     }
 
@@ -106,8 +101,6 @@ class NoticiaController extends Controller
     public function update(UpdateNoticiaRequest $request, Noticia $noticia)
     {
         //echo "Metodo UPDATE";
-        $this->authorize('update', $noticia);
-
         $noticia->titulo = $request->titulo;   
         $noticia->descricao = $request->descricao;
         $noticia->save();
@@ -124,7 +117,7 @@ class NoticiaController extends Controller
     public function destroy(Noticia $noticia)
     {
         //echo "Metodo DELETE (DESTROY)";
-        $this->authorize('delete', $noticia);
+        $this->authorize('excluir-noticia', $noticia);
         
         $noticia = Noticia::find($noticia->id);
         
@@ -139,4 +132,6 @@ class NoticiaController extends Controller
         return redirect()->route('noticias.index');
         
     }
+
+    
 }

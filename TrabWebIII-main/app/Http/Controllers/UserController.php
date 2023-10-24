@@ -12,7 +12,7 @@ class UserController extends Controller
     {
         $this->middleware('auth');   
     }
-    
+
     public function index()
     {
         $users = User::all();
@@ -40,17 +40,19 @@ class UserController extends Controller
 
         return view('users.show', compact(['roles', 'user']));
     }
-
+   
     public function edit($id)
     {
         //
     }
 
+    
     public function update(Request $request, $id)
     {
         //
     }
 
+    
     public function destroy($id)
     {
         //

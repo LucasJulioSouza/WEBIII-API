@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
+use App\Models\Noticia;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,7 +16,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-        Noticia::class => 'App\Policies\NoticiaPolicy',
     ];
 
     /**
@@ -25,7 +26,17 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-        
+
+        GATE::define('excluir-noticia', function (User $user, Noticia $noticia){
+            return $user->id === $noticia->user_id;
+        });
+        GATE::define('visualizar-noticia', function (User $user, Noticia $noticia){
+            return $user->id === $noticia->user_id;
+        });
+        GATE::define('editar-noticia', function (User $user, Noticia $noticia){
+            return $user->id === $noticia->user_id;
+        });
+
         //
     }
 }
