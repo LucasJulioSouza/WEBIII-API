@@ -10,6 +10,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     Voce esta Logado!
+
+                    @if (!Auth::user()->password)
+                    <a href="{{ route('users.edit', ['user' => Auth::id()]) }}" class="text-blue-500">Editar Senha</a>
+                    @endif
                 </div>
             </div>
         </div>

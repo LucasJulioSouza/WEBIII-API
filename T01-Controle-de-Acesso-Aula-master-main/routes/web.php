@@ -34,16 +34,35 @@ Route::resource('/permissions', PermissionController::class);
 Route::resource('/users', UserController::class);
 
  
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('github')->redirect();
-})->name('github.login');
+Route::get('/auth/redirect/{provider}', function ($provider) {
+    return Socialite::driver($provider)->redirect();
+})->name('social.login');
 
-Route::get('/auth/callback', function () {
-    $userGitHub = Socialite::driver('github')->user();
-
-    dd($userGitHub);
+Route::get('/auth/callback/{provider}', function ($provider) {
     
-})->name('github.callback');
+    $providerUser = Socialite::driver($provider)->user();
+
+    //dd($providerUser);
+
+    $user= User::firstOrCreate([
+        
+        "email" => $providerUser->email
+
+    ],[
+
+        "name"=> $providerUser->name,
+        "provider"=>$provider,
+        "provider_id"=>$providerUser->getId(),
+        "admin"=> 0
+
+    ]);
+
+
+    Auth::login($user);
+
+    return redirect('/dashboard');
+    
+})->name('social.callback');
  
 
 

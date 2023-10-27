@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -41,14 +42,31 @@ class UserController extends Controller
         return view('users.show', compact(['roles', 'user']));
     }
 
-    public function edit($id)
-    {
-        //
+    public function edit($user){
+    
+    $user = User::find($user);
+
+   
+        return view('users.edit', compact('user'));
     }
 
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $user){
+  
+    $request->validate([
+        'password' => 'required|string|min:8|confirmed', 
+    ]);
+
+    
+    $user = User::find($user);
+
+   
+       
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        
+        return view('dashboard');
+    
     }
 
     public function destroy($id)

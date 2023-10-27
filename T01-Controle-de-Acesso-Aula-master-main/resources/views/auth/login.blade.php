@@ -52,7 +52,11 @@
                 </x-button>
 
                 <x-button class="ml-3">
-                  <a href="{{ route ('github.login') }}">  {{ __('Log in GITHUB') }} </a>
+                  <a href="{{ route ('social.login', ['provider'=> 'github']) }}">  {{ __('Log in GITHUB') }} </a>
+                </x-button>
+
+                <x-button class="ml-3">
+                    <a href="{{ route ('social.login', ['provider'=> 'facebook']) }}">  {{ __('Log in facebook') }} </a>
                 </x-button>
             </div>
         </form>
